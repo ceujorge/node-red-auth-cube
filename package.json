@@ -14,10 +14,19 @@
     "node-red",
     "node-red-auth-cube"
   ],
+  "node-red": {
+    "nodes": {
+      "cube_isloggedin": "nodes/cube_isloggedin.js"
+    }
+  },
   "author": "Cleiton Jorge",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ceujorge/node-red-auth-cube/issues"
   },
-  "homepage": "https://github.com/ceujorge/node-red-auth-cube#readme"
+  "homepage": "https://github.com/ceujorge/node-red-auth-cube#readme",
+  "dependencies": {
+    "cookie": "^0.3.1",
+    "axios": "^0.21.1"
+  }
 }
