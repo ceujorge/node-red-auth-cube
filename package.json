@@ -1,0 +1,23 @@
+{
+  "name": "red-auth-cube",
+  "version": "0.0.1",
+  "description": "no para autenticar no cube",
+  "main": "cube_isloggedin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ceujorge/node-red-auth-cube.git"
+  },
+  "keywords": [
+    "node-red",
+    "node-red-auth-cube"
+  ],
+  "author": "Cleiton Jorge",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ceujorge/node-red-auth-cube/issues"
+  },
+  "homepage": "https://github.com/ceujorge/node-red-auth-cube#readme"
+}
