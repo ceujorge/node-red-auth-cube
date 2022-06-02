@@ -1,0 +1,19 @@
+
+<script type="text/javascript">
+  RED.nodes.registerType('cube_isloggedin', {
+    category: 'Metasix',
+    defaults: {
+      name: {value: ""}
+    },
+    paletteLabel: "is logged cube",
+    icon: "users.png",
+    color: "#00abb0",
+    inputs: 1,
+    outputs: 2,
+    outputLabels: ["is not logged","is logged"],
+
+    label: function () {
+      return this.name || "is logged cube";
+    }
+  });
+</script>

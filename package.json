@@ -2,7 +2,6 @@
   "name": "red-auth-cube",
   "version": "0.0.1",
   "description": "no para autenticar no cube",
-  "main": "cube_isloggedin.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,6 +26,7 @@
   "homepage": "https://github.com/ceujorge/node-red-auth-cube#readme",
   "dependencies": {
     "cookie": "^0.3.1",
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "body-parser":"^1.20.0"
   }
 }
