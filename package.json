@@ -1,6 +1,6 @@
 {
   "name": "red-auth-cube",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "no para autenticar no cube",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -27,6 +27,8 @@
   "dependencies": {
     "cookie": "^0.3.1",
     "axios": "^0.21.1",
-    "body-parser":"^1.20.0"
-  }
+    "body-parser": "^1.20.0"
+  },
+  "main": "callback.js",
+  "devDependencies": {}
 }

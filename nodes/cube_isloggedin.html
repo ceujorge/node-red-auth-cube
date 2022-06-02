@@ -1,9 +1,25 @@
-
+<script type="text/html" data-template-name="cube_isloggedin">
+  <div class="form-row">
+      <label for="node-input-token_aplicacao"><i class="fa fa-tag"></i> <span data-i18n="common.label.name">Token Aplicação</span></label>
+      <input type="text" id="node-input-token_aplicacao">
+  </div>
+  <div class="form-row">
+    <label for="node-input-tenant"><i class="fa fa-tag"></i> <span data-i18n="common.label.name">Tenant</span></label>
+    <input type="text" id="node-input-tenant">
+  </div>
+  <div class="form-row">
+    <label for="node-input-session"><i class="fa fa-tag"></i> <span data-i18n="common.label.name">URL Session CUBE</span></label>
+    <input type="text" id="node-input-session">
+  </div>
+  
+</script>
 <script type="text/javascript">
   RED.nodes.registerType('cube_isloggedin', {
     category: 'Metasix',
     defaults: {
-      name: {value: ""}
+      token_aplicacao: {value: "",required:true},
+      tenant: {value: "",required:true},
+      session: {value: "http://10.7.100.166:8000",required:true}
     },
     paletteLabel: "is logged cube",
     icon: "users.png",

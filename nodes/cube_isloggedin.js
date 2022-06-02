@@ -7,12 +7,23 @@ var callback = require('../callback.js');
 module.exports = function (RED) {
 
   function UsersIsLoggedInNode(n) {
-    RED.nodes.createNode(this,n);
+    RED.nodes.createNode(this, n);
     var node = this;
+    node.token_aplicacao = n.token_aplicacao;
+    node.tenant = n.tenant;
+    node.session = n.session;
     node.status({});
 
     node.on('input', async function (msg) {
-      const redireciona = "https://comercial.metasix.solutions/auth-web/login?redirect_uri=http://127.0.0.1:1880/auth-callback&token_aplicacao=YEPSNdQbn3Y_2jUnq90W7Q&requested_uri=http://127.0.0.1:1880/teste"
+
+      var token_aplicacao = node.token_aplicacao ;
+      var tenant = node.tenant;
+      var session = node.session;
+
+      //node.warn(token_aplicacao);
+      //node.warn(tenant);
+      //node.warn(session);
+      const redireciona = `https://${tenant}.metasix.solutions/auth-web/login?redirect_uri=http://127.0.0.1:1880/auth-callback&token_aplicacao=${token_aplicacao}&requested_uri=http://127.0.0.1:1880/teste`
 
       if(msg.req.cookies._begin == undefined)
       {
@@ -25,7 +36,9 @@ module.exports = function (RED) {
       {
         msg.dataSession = msg.req.cookies._begin
 
-        var value = await axios.get(`http://10.7.100.166:8000/sessions?type=user&userId=143&tenant=comercial`
+        var idUser = msg.req.cookies._begin.split(":")[1]
+
+        var value = await axios.get(`${session}/sessions?type=user&userId=${idUser}&tenant=${tenant}`
             ).then(response => {
              return response;
             })
@@ -41,7 +54,18 @@ module.exports = function (RED) {
         
         if(msg.logado)
         {
+          var perfil = await axios.get(`https://comercial.metasix.solutions/seguranca-ws/tokens-acesso/${logado[0].token}/valida`
+            ).then(response => {
+             return response;
+            })
+            .catch((error) => {
+             return error
+            });
           node.status({fill: "green", shape: "dot", text: "Authenticated"});
+          if(perfil)
+          {
+            msg.perfil = perfil.data
+          }
           msg.payload = "logado"
           node.send([null, msg]);
         }

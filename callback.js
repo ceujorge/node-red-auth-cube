@@ -4,11 +4,13 @@ const cookie = require('cookie');
 
 var appPath = '/auth-callback';
 
+var session;
+
 async function auth(req, res) {
 
   const requested = req.query.requested_uri;
 
-  const url = "http://10.7.100.166:8000/sessions"
+  const url = `${session}/sessions`
   var data = {
       "token": req.query.token,
       "host": req.headers.host,
@@ -34,8 +36,9 @@ async function auth(req, res) {
   
 }
 
-function init(server, app, _log, redSettings) {
+function init(server, app, _log, redSettings,node) {
   var log = _log;
+
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
@@ -46,7 +49,8 @@ function init(server, app, _log, redSettings) {
 }
 
 module.exports = {
-  init: function (RED) {
+  init: function (RED,node) {
+    session = node.session;
 
     init(RED.server, RED.httpNode, RED.log, RED.settings);
   }
