@@ -30,7 +30,7 @@ async function auth(req, res) {
               
   var token = value.data["id"] 
   
-  res.cookie("_begin", token, {encode:String})
+  res.cookie("_begin", token, {encode: String, sameSite:'none', secure:true})
   
   res.redirect(requested)
   

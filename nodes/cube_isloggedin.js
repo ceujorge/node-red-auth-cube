@@ -20,16 +20,20 @@ module.exports = function (RED) {
       var tenant = node.tenant;
       var session = node.session;
 
-      //node.warn(token_aplicacao);
+      var fullUrl = msg.req.protocol + 's://' + msg.req.get('host') + msg.req.originalUrl;
+      var baseUrl = msg.req.protocol + 's://' + msg.req.get('host');
+
+      //node.warn(fullUrl);
       //node.warn(tenant);
       //node.warn(session);
-      const redireciona = `https://${tenant}.metasix.solutions/auth-web/login?redirect_uri=http://127.0.0.1:1880/auth-callback&token_aplicacao=${token_aplicacao}&requested_uri=http://127.0.0.1:1880/teste`
+      const redireciona = `https://${tenant}.metasix.solutions/auth-web/login?redirect_uri=${baseUrl}/auth-callback&token_aplicacao=${token_aplicacao}&requested_uri=${fullUrl}`
 
-      if(msg.req.cookies._begin == undefined)
+      //node.warn(msg.req)
+      if(msg.req.cookies == null || msg.req.cookies._begin == undefined)
       {
         node.status({fill: "yellow", shape: "dot", text: "Unauthorized"});
         node.send([msg, null]);
-        msg.res.redirect(redireciona)
+        msg.res.status(303).redirect(redireciona)
 
       }
       else
@@ -54,7 +58,7 @@ module.exports = function (RED) {
         
         if(msg.logado)
         {
-          var perfil = await axios.get(`https://comercial.metasix.solutions/seguranca-ws/tokens-acesso/${logado[0].token}/valida`
+          var perfil = await axios.get(`https://${tenant}.metasix.solutions/seguranca-ws/tokens-acesso/${logado[0].token}/valida`
             ).then(response => {
              return response;
             })
@@ -66,6 +70,15 @@ module.exports = function (RED) {
           {
             msg.perfil = perfil.data
           }
+
+          axios.patch(`${session}/sessions/${msg.dataSession}`
+            ).then(response => {
+             return response;
+            })
+            .catch((error) => {
+             return error
+            });
+
           msg.payload = "logado"
           node.send([null, msg]);
         }
@@ -73,7 +86,7 @@ module.exports = function (RED) {
         {
           node.status({fill: "yellow", shape: "dot", text: "Unauthorized"});
           delete msg.payload;
-          msg.res.redirect(redireciona)
+          msg.res.status(303).redirect(redireciona)
           node.send([msg, null]);
         }
       }
