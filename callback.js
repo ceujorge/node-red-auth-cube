@@ -9,6 +9,9 @@ var session;
 async function auth(req, res) {
 
   const requested = req.query.requested_uri;
+  //const headers = {"Content-Type": "application/json"}
+
+  //console.log(requested)
 
   const url = `${session}/sessions`
   var data = {
@@ -20,13 +23,15 @@ async function auth(req, res) {
   
   //console.log(data)
   
-  var value = await axios.post(url,data
+  var value = await axios.post(url,data,{headers:{"Content-Type": "application/json"}}
               ).then(response => {
                return response;
               })
               .catch((error) => {
                return error
               });
+
+  //console.log(value)
               
   var token = value.data["id"] 
   

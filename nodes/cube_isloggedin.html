@@ -1,7 +1,20 @@
 <script type="text/html" data-template-name="cube_isloggedin">
+
   <div class="form-row">
       <label for="node-input-token_aplicacao"><i class="fa fa-tag"></i> <span data-i18n="common.label.name">Token Aplicação</span></label>
       <input type="text" id="node-input-token_aplicacao">
+  </div>
+  <div class="form-row">
+    <label for="node-input-uriAuth"><i class="fa fa-tag"></i> <span data-i18n="common.label.name">Uri Auth</span></label>
+    <input type="text" id="node-input-uriAuth">
+  </div>
+  <div class="form-row">
+    <label for="node-input-uriApp"><i class="fa fa-tag"></i> <span data-i18n="common.label.name">Uri App</span></label>
+    <input type="text" id="node-input-uriApp">
+  </div>
+  <div class="form-row">
+    <label for="node-input-uriWS"><i class="fa fa-tag"></i> <span data-i18n="common.label.name">Uri WS</span></label>
+    <input type="text" id="node-input-uriWS">
   </div>
   <div class="form-row">
     <label for="node-input-tenant"><i class="fa fa-tag"></i> <span data-i18n="common.label.name">Tenant</span></label>
@@ -17,9 +30,12 @@
   RED.nodes.registerType('cube_isloggedin', {
     category: 'Metasix',
     defaults: {
-      token_aplicacao: {value: "",required:true},
-      tenant: {value: "",required:true},
-      session: {value: "http://10.7.100.166:8000",required:true}
+      token_aplicacao: {value: "", required:true},
+      uriAuth: {value: "", required:true},
+      uriApp: {value: "", required:true},
+      uriWS: {value: "", required:true},
+      tenant: {value: "", required:true},
+      session: {value: "http://10.7.100.166:8000", required:true}
     },
     paletteLabel: "is logged cube",
     icon: "users.png",

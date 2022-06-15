@@ -10,6 +10,9 @@ module.exports = function (RED) {
     RED.nodes.createNode(this, n);
     var node = this;
     node.token_aplicacao = n.token_aplicacao;
+    node.uriAuth = n.uriAuth;
+    node.uriApp = n.uriApp;
+    node.uriWS = n.uriWS;
     node.tenant = n.tenant;
     node.session = n.session;
     node.status({});
@@ -17,18 +20,19 @@ module.exports = function (RED) {
     node.on('input', async function (msg) {
 
       var token_aplicacao = node.token_aplicacao ;
+      var uriAuth = node.uriAuth
+      var uriApp = node.uriApp;
+      var uriWS = node.uriWS;
       var tenant = node.tenant;
       var session = node.session;
 
-      var fullUrl = msg.req.protocol + 's://' + msg.req.get('host') + msg.req.originalUrl;
-      var baseUrl = msg.req.protocol + 's://' + msg.req.get('host');
+      var fullUrl = msg.req.protocol + 's://' + uriApp + msg.req.originalUrl;
+      var baseUrl = msg.req.protocol + 's://' + uriApp;
 
-      //node.warn(fullUrl);
-      //node.warn(tenant);
-      //node.warn(session);
-      const redireciona = `https://${tenant}.metasix.solutions/auth-web/login?redirect_uri=${baseUrl}/auth-callback&token_aplicacao=${token_aplicacao}&requested_uri=${fullUrl}`
 
-      //node.warn(msg.req)
+      const redireciona = `https://${uriAuth}/auth-web/login?redirect_uri=${baseUrl}/auth-callback&token_aplicacao=${token_aplicacao}&requested_uri=${fullUrl}`
+
+      //node.warn(redireciona)
       if(msg.req.cookies == null || msg.req.cookies._begin == undefined)
       {
         node.status({fill: "yellow", shape: "dot", text: "Unauthorized"});
@@ -42,7 +46,7 @@ module.exports = function (RED) {
 
         var idUser = msg.req.cookies._begin.split(":")[1]
 
-        var value = await axios.get(`${session}/sessions?type=user&userId=${idUser}&tenant=${tenant}`
+        var value = await axios.get(`${session}/sessions?type=user&userId=${idUser}&tenant=${tenant}`,{headers:{"Content-Type": "application/json"}}
             ).then(response => {
              return response;
             })
@@ -58,7 +62,7 @@ module.exports = function (RED) {
         
         if(msg.logado)
         {
-          var perfil = await axios.get(`https://${tenant}.metasix.solutions/seguranca-ws/tokens-acesso/${logado[0].token}/valida`
+          var perfil = await axios.get(`https://${uriWS}/seguranca-ws/tokens-acesso/${logado[0].token}/valida`,{headers:{"Content-Type": "application/json"}}
             ).then(response => {
              return response;
             })

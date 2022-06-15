@@ -1,6 +1,6 @@
 {
   "name": "red-auth-cube",
-  "version": "0.0.32",
+  "version": "0.0.49",
   "description": "no para autenticar no cube",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
